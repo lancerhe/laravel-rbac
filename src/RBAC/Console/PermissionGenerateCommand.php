@@ -58,7 +58,7 @@ class PermissionGenerateCommand extends RouteListCommand
     {
         $systemPermissions = $this->getSystemPermissions();
         $this->info("\nAll permissions has existed as follows:\n");
-        $this->table(['id', 'name', 'slug', 'http_method', 'http_path', 'created_at', 'updated_at'],
+        $this->table(['id', 'name', 'slug', 'prefix', 'created_at', 'updated_at'],
             $systemPermissions);
 
         $systemPermissionNames = collect($systemPermissions)->pluck('name')->all();
@@ -67,7 +67,7 @@ class PermissionGenerateCommand extends RouteListCommand
             return !in_array($item['name'], $systemPermissionNames);
         })->all();
         $this->info("\nNew add permissions as follows:\n");
-        $this->table(['name', 'slug', 'http_method', 'http_path'], $permissions);
+        $this->table(['name', 'slug', 'prefix'], $permissions);
         $this->createNewPermissions($permissions);
     }
 
@@ -84,8 +84,6 @@ class PermissionGenerateCommand extends RouteListCommand
             $permissions[] = [
                 'name' => "[${route['method']}]${route['uri']}",
                 'slug' => $route['name'] ?? '',
-                'http_method' => $route['method'],
-                'http_path' => $route['uri']
             ];
         }
 
@@ -105,8 +103,7 @@ class PermissionGenerateCommand extends RouteListCommand
                     $model = new $this->permission;
                     $model->name = $permission['name'];
                     $model->slug = $permission['slug'];
-                    $model->http_path = $permission['http_path'];
-                    $model->http_method = $permission['http_method'];
+                    $model->prefix = $permission['prefix'];
                     $model->save();
                 }
             }

@@ -28,8 +28,7 @@ class CreateRbacTables extends Migration
             $table->increments('id');
             $table->string('name', 190)->unique();
             $table->string('slug', 128);
-            $table->string('http_method')->nullable();
-            $table->text('http_path')->nullable();
+            $table->string('prefix', 128);
             $table->timestamps();
 
         });

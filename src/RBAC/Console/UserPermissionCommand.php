@@ -63,7 +63,7 @@ class UserPermissionCommand extends Command
             return $item;
         })->toArray();
         $this->info("\n $user->name has permissions as follows:\n");
-        $this->table(['id', 'name', 'slug', 'http_method', 'http_path', 'created_at', 'updated_at'], $permissions);
+        $this->table(['id', 'name', 'slug', 'prefix', 'created_at', 'updated_at'], $permissions);
     }
 
     /**
